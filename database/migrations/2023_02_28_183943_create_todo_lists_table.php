@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('todo_lists', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('name');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
