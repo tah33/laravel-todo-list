@@ -7,7 +7,7 @@ use App\Repositories\TaskRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class TaskListController extends Controller
+class TaskController extends Controller
 {
     protected $taskRepository;
     public function __construct(TaskRepository $taskRepository)
@@ -75,12 +75,16 @@ class TaskListController extends Controller
             $task = $this->taskRepository->find($id);
 
             if (!$task) {
-                return response()->json('Todo List No found', 404);
+                return response()->json([
+                    'error' => 'Task No found'
+                ], 404);
             }
 
             $this->taskRepository->update($request->all(), $id);
 
-            return response()->json('Task Updated');
+            return response()->json([
+                'success' => 'Task Updated Successfully'
+            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
@@ -92,11 +96,15 @@ class TaskListController extends Controller
             $todo = $this->taskRepository->find($id);
 
             if (!$todo) {
-                return response()->json('Task No found', 404);
+                return response()->json([
+                    'error' => 'Task No found'
+                ], 404);
             }
 
             $this->taskRepository->delete($id);
-            return response()->json('Task Deleted');
+            return response()->json([
+                'success' => 'Task Deleted Successfully'
+            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }

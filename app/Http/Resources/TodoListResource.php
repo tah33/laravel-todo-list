@@ -3,18 +3,19 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class TodoListResource extends JsonResource
+class TodoListResource extends ResourceCollection
 {
     public function toArray($request)
     {
         return [
-            'data' => $this->collection->map(function () {
+            'data' => $this->collection->map(function ($data) {
                 return [
                     [
-                        'id'    => (int)$this->id,
-                        'name'  => $this->name,
-                        'tasks' => TaskResource::collection($this->tasks),
+                        'id'    => (int)$data->id,
+                        'name'  => $data->name,
+                        'tasks' => TaskResource::collection($data->tasks),
                     ]
                 ];
             }),

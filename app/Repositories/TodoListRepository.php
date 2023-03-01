@@ -8,7 +8,7 @@ class TodoListRepository
 {
     public function paginate($relation = []): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-        return TodoList::with($relation)->latest()->paginate(10);
+        return TodoList::with($relation)->where('user_id',jwtUser()->id)->latest()->paginate(10);
     }
     public function create($data)
     {

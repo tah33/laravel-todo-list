@@ -63,7 +63,9 @@ class TodoListController extends Controller
             $todo = $this->todoListRepository->find($id, ['tasks']);
 
             if (!$todo) {
-                return response()->json('Todo List No found', 404);
+                return response()->json([
+                    'error' => 'Todo List No found'
+                ], 404);
             }
 
             $data = [
@@ -92,15 +94,21 @@ class TodoListController extends Controller
             $todo = $this->todoListRepository->find($id);
 
             if (!$todo) {
-                return response()->json('Todo List No found', 404);
+                return response()->json([
+                    'error' => 'Todo List No found'
+                ], 404);
             }
             if ($todo->user_id != jwtUser()->id) {
-                return response()->json('Todo List No found', 404);
+                return response()->json([
+                    'error' => 'Todo List No found'
+                ], 404);
             }
 
             $this->todoListRepository->update($request->all(), $id);
 
-            return response()->json('To do list Updated');
+            return response()->json([
+                'success' => 'Todo List Updated'
+            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
@@ -112,14 +120,20 @@ class TodoListController extends Controller
             $todo = $this->todoListRepository->find($id);
 
             if (!$todo) {
-                return response()->json('Todo List No found', 404);
+                return response()->json([
+                    'error' => 'Todo List No found'
+                ], 404);
             }
             if ($todo->user_id != jwtUser()->id) {
-                return response()->json('Todo List No found', 404);
+                return response()->json([
+                    'error' => 'Todo List No found'
+                ], 404);
             }
 
             $this->todoListRepository->delete($id);
-            return response()->json('To do list Deleted');
+            return response()->json([
+                'success' => 'Todo List Deleted'
+            ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
