@@ -18,6 +18,11 @@ class AuthController extends Controller
     {
         $this->middleware('auth:api',['only' => ['logout']]);
     }
+
+    public function showLoginError(): \Illuminate\Http\JsonResponse
+    {
+        return response()->json(['error' => 'Not authorized, Please Login First'],401);
+    }
     public function login(Request $request): \Illuminate\Http\JsonResponse
     {
         $validator = Validator::make($request->all(), [
@@ -117,7 +122,6 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            dd($e);
             return response()->json(['error' => $e->getMessage()]);
         }
     }
